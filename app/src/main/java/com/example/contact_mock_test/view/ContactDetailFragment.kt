@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.contact_mock_test.R
 
 class ContactDetailFragment : Fragment(R.layout.fragment_contact_detail) {
@@ -23,5 +24,12 @@ class ContactDetailFragment : Fragment(R.layout.fragment_contact_detail) {
         phoneTextView.text = contact.phoneNumber
         emailTextView.text = contact.email
         avatarImageView.setImageResource(R.drawable.icon_avatar_background)
+
+        val editButton = view.findViewById<ImageView>(R.id.editButton)
+        editButton.setOnClickListener {
+            // Điều hướng sang ContactEditFragment
+            val action = ContactDetailFragmentDirections.actionContactDetailFragmentToContactEditFragment(contact)
+            findNavController().navigate(action)
+        }
     }
 }

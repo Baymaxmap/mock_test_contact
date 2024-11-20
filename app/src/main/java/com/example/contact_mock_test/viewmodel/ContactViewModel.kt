@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.contact_mock_test.model.Contact
 import com.example.contact_mock_test.model.repository.ContactRepository
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +38,14 @@ class ContactViewModel(private val mRepository: ContactRepository): ViewModel() 
     fun deleteContact(contact: Contact){
         viewModelScope.launch {
             mRepository.deleteContact(contact)
+            fetchContacts()
+        }
+    }
+
+    //update a contact
+    fun updateContact(contact: Contact){
+        viewModelScope.launch {
+            mRepository.updateContact(contact)
             fetchContacts()
         }
     }
