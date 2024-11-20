@@ -6,17 +6,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.contact_mock_test.model.Contact
 import com.example.contact_mock_test.model.repository.ContactRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ContactViewModel(private val mRepository: ContactRepository): ViewModel() {
-    private lateinit var mContacts: MutableLiveData<List<Contact>>
+    private val mContacts: MutableLiveData<List<Contact>> = MutableLiveData()
     val contacts: LiveData<List<Contact>>
         get() = mContacts
 
     //fetch all contacts
     fun fetchContacts(){
         viewModelScope.launch {
-            val listContact = mRepository.getAllContacts()
+            val listContact = withContext(Dispatchers.IO) {
+                mRepository.getAllContacts()
+            }
             mContacts.postValue(listContact)
         }
     }

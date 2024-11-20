@@ -5,7 +5,7 @@ import com.example.contact_mock_test.model.Contact
 import com.example.contact_mock_test.model.ContactDao
 
 class ContactRepository(private val mContactDao: ContactDao) {
-    val contacts: LiveData<List<Contact>>
+    val contacts: List<Contact>
         get() = mContactDao.getAllContacts()
 
     suspend fun getAllContacts() : List<Contact>{

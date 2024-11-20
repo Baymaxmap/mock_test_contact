@@ -6,19 +6,19 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(entities = [Contact::class], version = 1, exportSchema = false)
-abstract class ContactDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
 
     abstract fun contactDao(): ContactDao
 
     companion object {
         @Volatile
-        private var INSTANCE: ContactDatabase? = null
+        private var INSTANCE: AppDatabase? = null
 
-        fun getDatabase(context: Context): ContactDatabase {
+        fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    ContactDatabase::class.java,
+                    AppDatabase::class.java,
                     "contact_database"
                 ).build()
                 INSTANCE = instance
