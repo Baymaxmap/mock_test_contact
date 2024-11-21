@@ -48,7 +48,12 @@ class ContactDetailFragment : Fragment(R.layout.fragment_contact_detail) {
         //bind viewmodel and view => when database change, UI change
         _binding.viewModel = contactViewModel
         _binding.lifecycleOwner = viewLifecycleOwner
-        _binding.contact = contact
+
+        //notify all observers about change of live data to update UI
+        contactViewModel.loadContactById(contact.id)
+        contactViewModel.contact.observe(viewLifecycleOwner){updateContact->
+            _binding.contact = updateContact
+        }
 
         //navigate to edit fragment
         val editButton = view.findViewById<ImageView>(R.id.editButton)

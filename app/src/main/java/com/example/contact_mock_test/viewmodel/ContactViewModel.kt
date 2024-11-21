@@ -64,9 +64,12 @@ class ContactViewModel(private val mRepository: ContactRepository): ViewModel() 
         return dataContact
     }
 
+    //load contact to notify all observers
     fun loadContactById(id: Int) {
         viewModelScope.launch {
-            val contact = mRepository.getContactById(id) // Trả về Contact
+            val contact = withContext(Dispatchers.IO) {
+                mRepository.getContactById(id)
+            }
             _contact.postValue(contact)
         }
     }
