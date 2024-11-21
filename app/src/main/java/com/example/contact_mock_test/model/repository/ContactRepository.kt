@@ -24,7 +24,7 @@ class ContactRepository(private val mContactDao: ContactDao) {
         mContactDao.deleteContact(contact)
     }
 
-    fun getContactById(id: Int){
-        mContactDao.getContactById(id)
+    fun getContactById(id: Int) : Contact{
+        return mContactDao.getContactById(id)
     }
 }

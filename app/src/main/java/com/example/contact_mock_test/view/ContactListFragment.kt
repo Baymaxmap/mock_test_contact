@@ -20,24 +20,27 @@ class ContactListFragment : Fragment(R.layout.fragment_contact_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //create recycler view to display UI
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_contacts)
         adapter = ContactAdapter(emptyList()) { contact ->
-            // Điều hướng sang ContactDetailFragment khi click vào liên hệ
+            // navigate to ContactDetailFragment when clicking item
             val action = ContactListFragmentDirections.actionContactListFragmentToContactDetailFragment(contact)
             findNavController().navigate(action)
         }
-
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        //create viewmodel to register observers when database changed
         val repository = (requireActivity().application as ContactApp).contactRepository
         val contactViewModelFactory = ContactViewModelFactory(repository)
-        contactViewModel = ViewModelProvider(this, contactViewModelFactory).get(ContactViewModel::class.java)
+        contactViewModel = ViewModelProvider(requireActivity(), contactViewModelFactory).get(ContactViewModel::class.java)
 
+        //register observers
         contactViewModel.contacts.observe(viewLifecycleOwner) { contacts ->
             adapter.updateData(contacts)
         }
 
+        //initialize UI when fragment is created, fetchContacts will call onChange of observer
         contactViewModel.fetchContacts()
     }
 }

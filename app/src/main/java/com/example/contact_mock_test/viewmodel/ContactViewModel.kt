@@ -16,6 +16,10 @@ class ContactViewModel(private val mRepository: ContactRepository): ViewModel() 
     val contacts: LiveData<List<Contact>>
         get() = mContacts
 
+    private val _contact = MutableLiveData<Contact>()
+    val contact: LiveData<Contact>
+        get() = _contact
+
     //fetch all contacts
     fun fetchContacts(){
         viewModelScope.launch {
@@ -45,8 +49,25 @@ class ContactViewModel(private val mRepository: ContactRepository): ViewModel() 
     //update a contact
     fun updateContact(contact: Contact){
         viewModelScope.launch {
+            _contact.postValue(contact)
             mRepository.updateContact(contact)
             fetchContacts()
+        }
+    }
+
+    //get a contact by ID
+    fun getContactById(id: Int): Contact{
+        var dataContact: Contact = Contact()
+        viewModelScope.launch {
+            dataContact = mRepository.getContactById(id)
+        }
+        return dataContact
+    }
+
+    fun loadContactById(id: Int) {
+        viewModelScope.launch {
+            val contact = mRepository.getContactById(id) // Trả về Contact
+            _contact.postValue(contact)
         }
     }
 }

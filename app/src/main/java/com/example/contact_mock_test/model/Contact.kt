@@ -9,8 +9,8 @@ import kotlinx.parcelize.Parcelize
 @Entity (tableName = "contacts")
 data class Contact(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val name: String,
-    val phoneNumber: String,
-    val email: String,
-    val avatar: String // Đường dẫn hoặc URL của ảnh đại diện
+    val name: String = "",
+    val phoneNumber: String = "",
+    val email: String = "",
+    val avatar: String = "" // Đường dẫn hoặc URL của ảnh đại diện
 ) : Parcelable
