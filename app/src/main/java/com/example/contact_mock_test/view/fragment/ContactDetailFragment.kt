@@ -1,4 +1,4 @@
-package com.example.contact_mock_test.view
+package com.example.contact_mock_test.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

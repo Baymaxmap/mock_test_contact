@@ -1,9 +1,8 @@
 package com.example.contact_mock_test.application
 
 import android.app.Application
-import com.example.contact_mock_test.model.AppDatabase
+import com.example.contact_mock_test.model.database.AppDatabase
 import com.example.contact_mock_test.model.Contact
-import com.example.contact_mock_test.model.ContactDao
 import com.example.contact_mock_test.model.repository.ContactRepository
 
 class ContactApp: Application() {

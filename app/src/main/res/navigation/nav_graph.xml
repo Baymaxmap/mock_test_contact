@@ -6,7 +6,7 @@
     <!-- Contact List Fragment -->
     <fragment
         android:id="@+id/contactListFragment"
-        android:name="com.example.contact_mock_test.view.ContactListFragment"
+        android:name="com.example.contact_mock_test.view.fragment.ContactListFragment"
         android:label="Contact List">
         <action
             android:id="@+id/action_contactListFragment_to_contactDetailFragment"
@@ -16,7 +16,7 @@
     <!-- Contact Detail Fragment -->
     <fragment
         android:id="@+id/contactDetailFragment"
-        android:name="com.example.contact_mock_test.view.ContactDetailFragment"
+        android:name="com.example.contact_mock_test.view.fragment.ContactDetailFragment"
         android:label="Contact Detail">
         <!-- Argument để nhận đối tượng Contact -->
         <argument
@@ -30,7 +30,7 @@
     <!-- Contact Edit Fragment -->
     <fragment
         android:id="@+id/contactEditFragment"
-        android:name="com.example.contact_mock_test.view.ContactEditFragment"
+        android:name="com.example.contact_mock_test.view.fragment.ContactEditFragment"
         android:label="Edit Contact">
         <argument
             android:name="contact"

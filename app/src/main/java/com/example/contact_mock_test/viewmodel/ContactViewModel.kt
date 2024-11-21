@@ -12,13 +12,19 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ContactViewModel(private val mRepository: ContactRepository): ViewModel() {
+    //attributes for display list of contact on UI
     private val mContacts: MutableLiveData<List<Contact>> = MutableLiveData()
     val contacts: LiveData<List<Contact>>
         get() = mContacts
 
+    //attribute to display a specific contact on UI
     private val _contact = MutableLiveData<Contact>()
     val contact: LiveData<Contact>
         get() = _contact
+
+    //attribute to search a specific contact
+    private val _filteredContacts = MutableLiveData<List<Contact>>() // Filtered contacts
+    val filteredContacts: LiveData<List<Contact>> = _filteredContacts
 
     //fetch all contacts
     fun fetchContacts(){
@@ -27,6 +33,7 @@ class ContactViewModel(private val mRepository: ContactRepository): ViewModel() 
                 mRepository.getAllContacts()
             }
             mContacts.postValue(listContact)
+            _filteredContacts.postValue(listContact)
         }
     }
 
@@ -71,6 +78,20 @@ class ContactViewModel(private val mRepository: ContactRepository): ViewModel() 
                 mRepository.getContactById(id)
             }
             _contact.postValue(contact)
+        }
+    }
+
+    //search a specific contact
+    fun searchContacts(query: String) {
+        val currentContacts = mContacts.value ?: emptyList()
+        _filteredContacts.value = if (query.isBlank()) {
+            currentContacts // Show all if query is empty
+        } else {
+            currentContacts.filter { contact ->
+                contact.name.contains(query, ignoreCase = true) ||
+                        contact.phoneNumber.contains(query, ignoreCase = true) ||
+                        contact.email.contains(query, ignoreCase = true)
+            }
         }
     }
 }
