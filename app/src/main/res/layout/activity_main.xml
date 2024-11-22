@@ -27,4 +27,15 @@
         app:navGraph="@navigation/nav_graph"
         app:defaultNavHost="true" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:contentDescription="Add Contact"
+        app:srcCompat="@drawable/icon_add"
+        app:backgroundTint="#2A92ED"
+        app:tint="@android:color/white" />
+
 </LinearLayout>

@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_contactListFragment_to_contactDetailFragment"
             app:destination="@id/contactDetailFragment" />
+        <action
+            android:id="@+id/action_contactListFragment_to_contactAddFragment"
+            app:destination="@id/contactAddFragment" />
     </fragment>
 
     <!-- Contact Detail Fragment -->
@@ -35,5 +38,14 @@
         <argument
             android:name="contact"
             app:argType="com.example.contact_mock_test.model.Contact" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/contactAddFragment"
+        android:name="com.example.contact_mock_test.view.fragment.ContactAddFragment"
+        android:label="Add Contact">
+        <action
+            android:id="@+id/action_contactAddFragment_to_contactListFragment"
+            app:destination="@id/contactListFragment" />
     </fragment>
 </navigation>

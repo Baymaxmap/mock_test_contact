@@ -3,6 +3,7 @@ package com.example.contact_mock_test.view.main
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import android.widget.Toast
@@ -17,6 +18,7 @@ import com.example.contact_mock_test.R
 import com.example.contact_mock_test.application.ContactApp
 import com.example.contact_mock_test.view.fragment.ContactListFragment
 import com.example.contact_mock_test.viewmodel.ContactViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -50,6 +52,27 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        val fabAddContact = findViewById<FloatingActionButton>(R.id.fab_add_contact)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.contactListFragment -> {
+                    // Hiển thị FloatingActionButton ở ContactListFragment
+                    fabAddContact.show()
+                }
+                else -> {
+                    // Ẩn FloatingActionButton ở các Fragment khác
+                    fabAddContact.hide()
+                    fabAddContact.visibility = View.GONE
+                }
+            }
+        }
+
+        fabAddContact.setOnClickListener {
+            navController.navigate(R.id.action_contactListFragment_to_contactAddFragment)
+        }
+
+
         val app = applicationContext as ContactApp
         lifecycleScope.launch {
             if (app.isFirstRun()) {
@@ -103,12 +126,6 @@ class MainActivity : AppCompatActivity() {
 
         return true
     }
-
-
-
-
-
-
 
     // Xử lý sự kiện khi chọn menu item khác
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
