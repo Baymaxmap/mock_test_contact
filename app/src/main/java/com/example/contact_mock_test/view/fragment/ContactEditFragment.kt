@@ -12,19 +12,19 @@ import com.example.contact_mock_test.R
 import com.example.contact_mock_test.application.ContactApp
 import com.example.contact_mock_test.databinding.FragmentContactEditBinding
 import com.example.contact_mock_test.model.Contact
+import com.example.contact_mock_test.viewmodel.ContactEditViewModel
 import com.example.contact_mock_test.viewmodel.ContactViewModel
 import com.example.contact_mock_test.viewmodel.factory.ContactViewModelFactory
 
 class ContactEditFragment : Fragment(R.layout.fragment_contact_edit) {
-    private lateinit var contact: Contact
-    private lateinit var contactViewModel: ContactViewModel
+    private lateinit var contactViewModel: ContactEditViewModel
     private lateinit var _binding: FragmentContactEditBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentContactEditBinding.inflate(inflater, container, false)
         return _binding.root
     }
@@ -32,30 +32,29 @@ class ContactEditFragment : Fragment(R.layout.fragment_contact_edit) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // get contact from arguments
-        val contact = ContactEditFragmentArgs.fromBundle(requireArguments()).contact
-
         // initialize ViewModel
         val repository = (requireActivity().application as ContactApp).contactRepository
         val contactViewModelFactory = ContactViewModelFactory(repository)
-        contactViewModel = ViewModelProvider(requireActivity(), contactViewModelFactory).get(ContactViewModel::class.java)
+        contactViewModel = ViewModelProvider(this, contactViewModelFactory).get(ContactEditViewModel::class.java)
 
+        val contact = ContactEditFragmentArgs.fromBundle(requireArguments()).contact    // get contact from arguments
         //bind viewmodel and view
         _binding.viewModel = contactViewModel
         _binding.lifecycleOwner = viewLifecycleOwner
         _binding.contact = contact  //display UI
 
-        //handle event click button
-        val saveButton = view.findViewById<Button>(R.id.saveButton)
-        saveButton.setOnClickListener {
-            // update inf
-            val updatedContact = contact.copy(
-                name = _binding.nameEditText.text.toString(),
-                phoneNumber = _binding.phoneEditText.text.toString(),
-                email = _binding.emailEditText.text.toString()
-            )
-            contactViewModel.updateContact(updatedContact)  // update into database
-            findNavController().navigateUp()                // back to ContactListFragment
+
+        //*************************** NAVIGATE BACK TO CONTACT DETAIL FRAGMENT ******************************
+        contactViewModel.navigateBack.observe(viewLifecycleOwner){shouldNavigate->
+            if(shouldNavigate == true){
+                val updatedContact = contact.copy(
+                    name = _binding.nameEditText.text.toString(),
+                    phoneNumber = _binding.phoneEditText.text.toString(),
+                    email = _binding.emailEditText.text.toString()
+                )
+                contactViewModel.updateContact(updatedContact)
+                findNavController().navigateUp()
+            }
         }
     }
 }

@@ -2,7 +2,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.contact_mock_test.viewmodel.ContactViewModel" />
+            type="com.example.contact_mock_test.viewmodel.ContactEditViewModel" />
 
         <variable
             name="contact"
@@ -44,8 +44,8 @@
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"/>
-<!--            android:onClick="@{() -> viewModel.saveContact(contact)}" />-->
+            android:text="Save"
+            android:onClick="@{() -> viewModel.saveContact(contact)}" />
 
     </LinearLayout>
 </layout>
