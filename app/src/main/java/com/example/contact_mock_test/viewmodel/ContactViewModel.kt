@@ -26,7 +26,7 @@ class ContactViewModel(private val mRepository: ContactRepository): ViewModel() 
     private val _filteredContacts = MutableLiveData<List<Contact>>() // Filtered contacts
     val filteredContacts: LiveData<List<Contact>> = _filteredContacts
 
-    //fetch all contacts
+    //************ FETCH CONTACTS FROM DATABASE TO LIVEDATA ATTRIBUTE************
     fun fetchContacts(){
         viewModelScope.launch {
             val listContact = withContext(Dispatchers.IO) {
@@ -37,6 +37,7 @@ class ContactViewModel(private val mRepository: ContactRepository): ViewModel() 
         }
     }
 
+    //************ UPDATE CONTACT TO DATABASE ************
     //insert some contacts and also fetch data
     fun insertContact(contact: Contact){
         viewModelScope.launch {

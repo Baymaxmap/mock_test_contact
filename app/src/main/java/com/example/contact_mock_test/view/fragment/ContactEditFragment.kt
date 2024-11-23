@@ -43,10 +43,7 @@ class ContactEditFragment : Fragment(R.layout.fragment_contact_edit) {
         //bind viewmodel and view
         _binding.viewModel = contactViewModel
         _binding.lifecycleOwner = viewLifecycleOwner
-        contactViewModel.loadContactById(contact.id)
-        contactViewModel.contact.observe(viewLifecycleOwner){updateContact->
-            _binding.contact = updateContact
-        }
+        _binding.contact = contact  //display UI
 
         //handle event click button
         val saveButton = view.findViewById<Button>(R.id.saveButton)

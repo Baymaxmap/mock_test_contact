@@ -17,13 +17,13 @@ class ContactApp: Application() {
     }
 
     suspend fun initApp(){
-        contactRepository.insertContact(Contact( name ="Thanh1", phoneNumber = "123", email =  "thanh1@", avatar = "/home/thanhtb5/Downloads/avt/avt.jpg"))
-        contactRepository.insertContact(Contact( name ="Thanh2", phoneNumber = "234", email =  "thanh2@", avatar = "/home/thanhtb5/Downloads/avt/avt1.jpg"))
-        contactRepository.insertContact(Contact( name ="Thanh3", phoneNumber = "345", email =  "thanh3@", avatar = "/home/thanhtb5/Downloads/avt/avt2.jpg"))
-        contactRepository.insertContact(Contact( name ="Thanh4", phoneNumber = "456", email =  "thanh4@", avatar = "/home/thanhtb5/Downloads/avt/avt3.jpg"))
-        contactRepository.insertContact(Contact( name ="Thanh5", phoneNumber = "567", email =  "thanh5@", avatar = "/home/thanhtb5/Downloads/avt/avt4.png"))
-        contactRepository.insertContact(Contact( name ="Thanh6", phoneNumber = "678", email =  "thanh6@", avatar = "/home/thanhtb5/Downloads/avt/avt5.png"))
-        contactRepository.insertContact(Contact( name ="Thanh7", phoneNumber = "789", email =  "thanh7@", avatar = "/home/thanhtb5/Downloads/avt/avt6.jpg"))
+        contactRepository.insertContact(Contact( name ="Thanh1", phoneNumber = "123", email =  "thanh1@", avatar = "/storage/emulated/0/Download/avt.jpg"))
+        contactRepository.insertContact(Contact( name ="Thanh2", phoneNumber = "234", email =  "thanh2@", avatar = "/storage/emulated/0/Download/avt1.jpg"))
+        contactRepository.insertContact(Contact( name ="Thanh3", phoneNumber = "345", email =  "thanh3@", avatar = "/storage/emulated/0/Download/avt2.jpg"))
+        contactRepository.insertContact(Contact( name ="Thanh4", phoneNumber = "456", email =  "thanh4@", avatar = "/storage/emulated/0/Download/avt3.jpg"))
+        contactRepository.insertContact(Contact( name ="Thanh5", phoneNumber = "567", email =  "thanh5@", avatar = "/storage/emulated/0/Download/avt4.png"))
+        contactRepository.insertContact(Contact( name ="Thanh6", phoneNumber = "678", email =  "thanh6@", avatar = "/storage/emulated/0/Download/avt5.png"))
+        contactRepository.insertContact(Contact( name ="Thanh7", phoneNumber = "789", email =  "thanh7@", avatar = "/storage/emulated/0/Download/avt6.jpg"))
     }
     fun isFirstRun(): Boolean {
         val prefs = getSharedPreferences("app_preferences", MODE_PRIVATE)

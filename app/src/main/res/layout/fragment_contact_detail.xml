@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.contact_mock_test.viewmodel.ContactViewModel" />
+            type="com.example.contact_mock_test.viewmodel.ContactDetailViewModel" />
 
         <variable
             name="contact"
@@ -27,8 +27,8 @@
             android:src="@drawable/icon_avatar_background"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-<!--            app:loadImage="@{contact.avatar}" />-->
+            app:layout_constraintEnd_toEndOf="parent"
+            app:loadImage="@{contact.avatar}" />
 
         <!-- Contact Name -->
         <TextView
@@ -78,8 +78,8 @@
             app:rippleColor="@color/colorPrimaryDark"
             android:contentDescription="Edit Contact"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-<!--            android:onClick="@{() -> viewModel.onEditButtonClicked(contact)}" />-->
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="@{() -> viewModel.onEditButtonClicked(contact)}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -20,6 +20,7 @@ class ContactListFragment : Fragment(R.layout.fragment_contact_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //******************************** DISPLAY CONTACT LIST **********************************
         //create recycler view to display UI
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_contacts)
         adapter = ContactAdapter(emptyList()) { contact ->
@@ -30,16 +31,21 @@ class ContactListFragment : Fragment(R.layout.fragment_contact_list) {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        //******************************** CONTACT LIST CHANGE UI WHEN ANY CONTACT UPDATED **********************************
         //create viewmodel to register observers when database changed
         val repository = (requireActivity().application as ContactApp).contactRepository
         val contactViewModelFactory = ContactViewModelFactory(repository)
         contactViewModel = ViewModelProvider(requireActivity(), contactViewModelFactory).get(ContactViewModel::class.java)
 
-        //register observers to display all contacts on recycler view
+        //register observers to display all contacts on recycler view when contact get updated
         contactViewModel.contacts.observe(viewLifecycleOwner) { contacts ->
             adapter.updateData(contacts)
         }
 
+
+
+
+        //******************************** CONTACT SEARCH TO DISPLAY UI **********************************
         // Observe filtered contacts to display specific contacts searched
         contactViewModel.filteredContacts.observe(viewLifecycleOwner) { contacts ->
             adapter.updateData(contacts)

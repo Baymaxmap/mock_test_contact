@@ -12,11 +12,12 @@ import androidx.navigation.fragment.findNavController
 import com.example.contact_mock_test.R
 import com.example.contact_mock_test.application.ContactApp
 import com.example.contact_mock_test.databinding.FragmentContactDetailBinding
+import com.example.contact_mock_test.viewmodel.ContactDetailViewModel
 import com.example.contact_mock_test.viewmodel.ContactViewModel
 import com.example.contact_mock_test.viewmodel.factory.ContactViewModelFactory
 
 class ContactDetailFragment : Fragment(R.layout.fragment_contact_detail) {
-    private lateinit var contactViewModel: ContactViewModel
+    private lateinit var contactViewModel: ContactDetailViewModel
     private lateinit var _binding : FragmentContactDetailBinding
 
     override fun onCreateView(
@@ -31,36 +32,34 @@ class ContactDetailFragment : Fragment(R.layout.fragment_contact_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val avatarImageView = view.findViewById<ImageView>(R.id.avatar_image_view)
-        val nameTextView = view.findViewById<TextView>(R.id.contact_name_text)
-        val phoneTextView = view.findViewById<TextView>(R.id.contact_phone_text)
-        val emailTextView = view.findViewById<TextView>(R.id.contact_email_text)
+        var contact = ContactDetailFragmentArgs.fromBundle(requireArguments()).contact
 
-        val contact = ContactDetailFragmentArgs.fromBundle(requireArguments()).contact
-
-        avatarImageView.setImageResource(R.drawable.icon_avatar_background)
-
-        //when data change by editing, UI is updated
+        //*************************** CREATING VIEWMODEL ******************************
         val repository = (requireActivity().application as ContactApp).contactRepository
         val contactViewModelFactory = ContactViewModelFactory(repository)
-        contactViewModel = ViewModelProvider(requireActivity(), contactViewModelFactory).get(ContactViewModel::class.java)
+        contactViewModel = ViewModelProvider(this, contactViewModelFactory)
+            .get(ContactDetailViewModel::class.java)
 
-        //bind viewmodel and view => when database change, UI change
+        //bind viewmodel and view
         _binding.viewModel = contactViewModel
         _binding.lifecycleOwner = viewLifecycleOwner
 
-        //notify all observers about change of live data to update UI
-        contactViewModel.loadContactById(contact.id)
+        //*************************** DISPLAY UI ******************************
+        //fetch data to livedata in viewmodel => will call observer
+        contactViewModel.fetchContactById(contact.id)
+
+        //bind data between livedata and UI
         contactViewModel.contact.observe(viewLifecycleOwner){updateContact->
-            _binding.contact = updateContact
+            _binding.contact = updateContact    //for displaying contact on detail fragment if data updated
         }
 
-        //navigate to edit fragment
-        val editButton = view.findViewById<ImageView>(R.id.editButton)
-        editButton.setOnClickListener {
-            // navigate ContactEditFragment
-            val action = ContactDetailFragmentDirections.actionContactDetailFragmentToContactEditFragment(contact)
-            findNavController().navigate(action)
+        //*************************** NAVIGATE TO CONTACT EDIT FRAGMENT ******************************
+        contactViewModel.navigateToEditFragment.observe(viewLifecycleOwner){selectedContact->
+            selectedContact?.let{
+                val action = ContactDetailFragmentDirections.actionContactDetailFragmentToContactEditFragment(selectedContact)
+                findNavController().navigate(action)
+                contactViewModel.onEditFragmentNavigated()
+            }
         }
     }
 }
