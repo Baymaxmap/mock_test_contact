@@ -12,17 +12,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ContactEditViewModel(private val _repository: ContactRepository): ViewModel() {
-    private var _navigateBack = MutableLiveData<Boolean>()
+    private val _navigateBack = MutableLiveData<Boolean>()
     val navigateBack: LiveData<Boolean>
         get() = _navigateBack
 
-    fun updateContact(contact: Contact){
-        viewModelScope.launch {
-            withContext(Dispatchers.IO){
-                _repository.updateContact(contact)
-            }
-        }
-    }
+    private val _selectImageEvent = MutableLiveData<Boolean>()
+    val selectImageEvent: LiveData<Boolean> get() = _selectImageEvent
 
     fun saveContact(contact: Contact){
         viewModelScope.launch {
@@ -33,7 +28,11 @@ class ContactEditViewModel(private val _repository: ContactRepository): ViewMode
         }
     }
 
-    fun onNavigated(){
-        _navigateBack.value = false
+    fun selectImage() {
+        _selectImageEvent.value = true
+    }
+
+    fun doneSelectingImage() {
+        _selectImageEvent.value = false
     }
 }

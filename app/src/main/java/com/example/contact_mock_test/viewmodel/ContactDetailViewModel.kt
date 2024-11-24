@@ -29,14 +29,6 @@ class ContactDetailViewModel(private val _repository: ContactRepository): ViewMo
         }
     }
 
-    fun updateContact(contact: Contact){
-        viewModelScope.launch {
-            withContext(Dispatchers.IO){
-                _repository.updateContact(contact)
-            }
-        }
-    }
-
     fun onEditButtonClicked(contact: Contact){
         _navigateToEditFragment.value = contact
     }

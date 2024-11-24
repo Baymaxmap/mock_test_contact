@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.contact_mock_test.viewmodel.ContactViewModel" />
+            type="com.example.contact_mock_test.viewmodel.ContactAddViewModel" />
 
         <variable
             name="contact"
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Name"
-            android:text="@{contact.name}" />
+            android:text="@={contact.name}" />
 
         <!-- EditText for Phone -->
         <EditText
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Phone Number"
-            android:text="@{contact.phoneNumber}" />
+            android:text="@={contact.phoneNumber}" />
 
         <!-- EditText for Email -->
         <EditText
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Email"
-            android:text="@{contact.email}" />
+            android:text="@={contact.email}" />
 
         <!-- ImageView for Avatar -->
         <ImageView

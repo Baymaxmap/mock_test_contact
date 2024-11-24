@@ -1,6 +1,10 @@
 package com.example.contact_mock_test.view.fragment
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,18 +47,53 @@ class ContactEditFragment : Fragment(R.layout.fragment_contact_edit) {
         _binding.lifecycleOwner = viewLifecycleOwner
         _binding.contact = contact  //display UI
 
+        //*************************** SELECT IMAGE FROM DEVICE ******************************
+        contactViewModel.selectImageEvent.observe(viewLifecycleOwner) { shouldSelectImage ->
+            if (shouldSelectImage == true) {
+                selectImageFromGallery()
+                contactViewModel.doneSelectingImage() // Reset trạng thái
+            }
+        }
 
         //*************************** NAVIGATE BACK TO CONTACT DETAIL FRAGMENT ******************************
         contactViewModel.navigateBack.observe(viewLifecycleOwner){shouldNavigate->
             if(shouldNavigate == true){
-                val updatedContact = contact.copy(
-                    name = _binding.nameEditText.text.toString(),
-                    phoneNumber = _binding.phoneEditText.text.toString(),
-                    email = _binding.emailEditText.text.toString()
-                )
-                contactViewModel.updateContact(updatedContact)
                 findNavController().navigateUp()
             }
         }
+    }
+
+
+    //LOAD IMAGE
+    private fun selectImageFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, REQUEST_IMAGE_PICK)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK && data != null) {
+            val selectedImageUri = data.data
+            val realPath = getRealPathFromUri(selectedImageUri!!)
+            _binding.contact?.avatar = realPath // Cập nhật avatar trong contact
+            _binding.invalidateAll() // Làm mới giao diện
+        }
+    }
+
+    private fun getRealPathFromUri(uri: Uri): String {
+        var path = ""
+        val cursor = requireContext().contentResolver.query(uri, null, null, null, null)
+        if (cursor != null) {
+            cursor.moveToFirst()
+            val index = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
+            path = cursor.getString(index)
+            cursor.close()
+        }
+        return path
+    }
+
+    companion object {
+        private const val REQUEST_IMAGE_PICK = 1
     }
 }

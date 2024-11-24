@@ -1,4 +1,5 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="viewModel"
@@ -15,13 +16,31 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Avatar ImageView -->
+        <ImageView
+            android:id="@+id/avatarImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_avatar_background"
+            app:loadImage="@{contact.avatar}" />
+
+        <!-- Select Image Button -->
+        <Button
+            android:id="@+id/selectImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Image"
+            android:layout_gravity="center"
+            android:onClick="@{() -> viewModel.selectImage()}" />
+
         <!-- Name EditText -->
         <EditText
             android:id="@+id/nameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Name"
-            android:text="@{contact.name}" />
+            android:text="@={contact.name}" />
 
         <!-- Phone EditText -->
         <EditText
@@ -29,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Phone"
-            android:text="@{contact.phoneNumber}" />
+            android:text="@={contact.phoneNumber}" />
 
         <!-- Email EditText -->
         <EditText
@@ -37,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
-            android:text="@{contact.email}" />
+            android:text="@={contact.email}" />
 
         <!-- Save Button -->
         <Button
