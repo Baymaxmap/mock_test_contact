@@ -20,6 +20,14 @@ class ContactDetailViewModel(private val _repository: ContactRepository): ViewMo
     val navigateToEditFragment
         get() = _navigateToEditFragment
 
+    private val _navigateToListFragment = MutableLiveData<Boolean>()
+    val navigateToListFragment: LiveData<Boolean>
+        get() = _navigateToListFragment
+
+    private val _navigateToCall = MutableLiveData<Boolean>()
+    val navigateToCall: LiveData<Boolean>
+        get() = _navigateToCall
+
     fun fetchContactById(id: Int){
         viewModelScope.launch {
             val contact = withContext(Dispatchers.IO){
@@ -35,5 +43,25 @@ class ContactDetailViewModel(private val _repository: ContactRepository): ViewMo
 
     fun onEditFragmentNavigated() {
         _navigateToEditFragment.value = null
+    }
+
+    fun onDeleteButtonClicked(contact: Contact) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _repository.deleteContact(contact)
+            }
+            _navigateToListFragment.value = true
+        }
+    }
+
+    fun onCallButtonClicked(){
+        viewModelScope.launch {
+            _navigateToCall.value = true
+        }
+    }
+    fun onCallFinished(){
+        viewModelScope.launch {
+            _navigateToCall.value = false
+        }
     }
 }

@@ -20,66 +20,66 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.contact_mock_test.R
 import com.example.contact_mock_test.application.ContactApp
 import com.example.contact_mock_test.view.fragment.ContactListFragment
-import com.example.contact_mock_test.viewmodel.ContactViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private val REQUEST_CODE = 1001
-    private lateinit var contactViewModel: ContactViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Yêu cầu quyền khi ứng dụng khởi động
+        // request permission of accessing photos in device when first time start
         requestStoragePermission()
 
-        // Tìm Toolbar trong layout và thiết lập làm ActionBar
+        //find toolbar in layout and set up action bar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        // Thiết lập Navigation Component
+        // set up Navigation Component
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        // Liên kết ActionBar với NavController
+        // link ActionBar with NavController
         setupActionBarWithNavController(navController)
 
-        // Thay đổi icon khi destination thay đổi
+        //change icon menu and back when destination changed
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.contactListFragment -> {
-                    // Icon menu cho ContactListFragment
+                    // Icon menu for ContactListFragment
                     toolbar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.icon_menu)
                 }
                 else -> {
-                    // Icon back cho các Fragment khác
+                    // Icon back for other Fragment
                     toolbar.navigationIcon = ContextCompat.getDrawable(this, R.drawable.icon_back)
                 }
             }
         }
 
+        //manage floating action button
         val fabAddContact = findViewById<FloatingActionButton>(R.id.fab_add_contact)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.contactListFragment -> {
-                    // Hiển thị FloatingActionButton ở ContactListFragment
+                    // display FloatingActionButton in ContactListFragment
                     fabAddContact.show()
                 }
                 else -> {
-                    // Ẩn FloatingActionButton ở các Fragment khác
+                    // hide FloatingActionButton in other Fragments
                     fabAddContact.hide()
                     fabAddContact.visibility = View.GONE
                 }
             }
         }
 
+        //manage FloatingActionButton clicked => navigate to ContactAddFragment
         fabAddContact.setOnClickListener {
             navController.navigate(R.id.action_contactListFragment_to_contactAddFragment)
         }
 
-
+        //initialize database when the app first time initialize
         val app = applicationContext as ContactApp
         lifecycleScope.launch {
             if (app.isFirstRun()) {

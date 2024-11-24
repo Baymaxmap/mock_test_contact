@@ -20,8 +20,6 @@ import com.example.contact_mock_test.application.ContactApp
 import com.example.contact_mock_test.databinding.FragmentContactAddBinding
 import com.example.contact_mock_test.model.Contact
 import com.example.contact_mock_test.viewmodel.ContactAddViewModel
-import com.example.contact_mock_test.viewmodel.ContactEditViewModel
-import com.example.contact_mock_test.viewmodel.ContactViewModel
 import com.example.contact_mock_test.viewmodel.factory.ContactViewModelFactory
 
 class ContactAddFragment : Fragment(R.layout.fragment_contact_add) {

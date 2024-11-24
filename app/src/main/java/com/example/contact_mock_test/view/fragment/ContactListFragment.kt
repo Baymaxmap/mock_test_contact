@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.contact_mock_test.R
 import com.example.contact_mock_test.application.ContactApp
 import com.example.contact_mock_test.view.ContactAdapter
-import com.example.contact_mock_test.viewmodel.ContactViewModel
+import com.example.contact_mock_test.viewmodel.ContactListViewModel
 import com.example.contact_mock_test.viewmodel.factory.ContactViewModelFactory
 
 class ContactListFragment : Fragment(R.layout.fragment_contact_list) {
-    private lateinit var contactViewModel: ContactViewModel
+    private lateinit var contactViewModel: ContactListViewModel
     private lateinit var adapter: ContactAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,15 +35,12 @@ class ContactListFragment : Fragment(R.layout.fragment_contact_list) {
         //create viewmodel to register observers when database changed
         val repository = (requireActivity().application as ContactApp).contactRepository
         val contactViewModelFactory = ContactViewModelFactory(repository)
-        contactViewModel = ViewModelProvider(requireActivity(), contactViewModelFactory).get(ContactViewModel::class.java)
+        contactViewModel = ViewModelProvider(requireActivity(), contactViewModelFactory).get(ContactListViewModel::class.java)
 
         //register observers to display all contacts on recycler view when contact get updated
         contactViewModel.contacts.observe(viewLifecycleOwner) { contacts ->
             adapter.updateData(contacts)
         }
-
-
-
 
         //******************************** CONTACT SEARCH TO DISPLAY UI **********************************
         // Observe filtered contacts to display specific contacts searched
@@ -57,10 +54,7 @@ class ContactListFragment : Fragment(R.layout.fragment_contact_list) {
 
     override fun onResume() {
         super.onResume()
-        contactViewModel.searchContacts("")
-        if (contactViewModel.filteredContacts.value.isNullOrEmpty()) {
-            contactViewModel.fetchContacts() // Lấy lại toàn bộ danh sách nếu không có kết quả tìm kiếm
-        }
+        contactViewModel.fetchContacts()
     }
 
 

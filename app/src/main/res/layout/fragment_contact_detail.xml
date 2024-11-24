@@ -67,6 +67,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Button for Call -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/callButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:srcCompat="@drawable/icon_call"
+            app:backgroundTint="@color/colorAccent"
+            app:rippleColor="@color/colorPrimaryDark"
+            android:contentDescription="Call Contact"
+            app:layout_constraintBottom_toTopOf="@id/deleteButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="@{() -> viewModel.onCallButtonClicked()}"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:srcCompat="@drawable/icon_delete"
+            app:backgroundTint="@color/colorAccent"
+            app:rippleColor="@color/colorPrimaryDark"
+            android:contentDescription="Delete Contact"
+            app:layout_constraintBottom_toTopOf="@id/editButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="@{() -> viewModel.onDeleteButtonClicked(contact)}" />
+
+
         <!-- Edit Button (FloatingActionButton) -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/editButton"

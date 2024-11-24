@@ -15,9 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.contact_mock_test.R
 import com.example.contact_mock_test.application.ContactApp
 import com.example.contact_mock_test.databinding.FragmentContactEditBinding
-import com.example.contact_mock_test.model.Contact
 import com.example.contact_mock_test.viewmodel.ContactEditViewModel
-import com.example.contact_mock_test.viewmodel.ContactViewModel
 import com.example.contact_mock_test.viewmodel.factory.ContactViewModelFactory
 
 class ContactEditFragment : Fragment(R.layout.fragment_contact_edit) {
