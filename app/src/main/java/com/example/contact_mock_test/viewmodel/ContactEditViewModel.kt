@@ -28,7 +28,7 @@ class ContactEditViewModel(private val _repository: ContactRepository): ViewMode
         }
     }
 
-    fun selectImage() {
+    fun onSelectImage() {
         _selectImageEvent.value = true
     }
 

@@ -4,27 +4,25 @@ import androidx.lifecycle.LiveData
 import com.example.contact_mock_test.model.Contact
 import com.example.contact_mock_test.model.ContactDao
 
-class ContactRepository(private val mContactDao: ContactDao) {
-//    val contacts: List<Contact>
-//        get() = mContactDao.getAllContacts()
+class ContactRepository(private val _contactDao: ContactDao) {
 
     suspend fun getAllContacts() : List<Contact>{
-        return mContactDao.getAllContacts()
+        return _contactDao.getAllContacts()
     }
 
     suspend fun insertContact(contact: Contact){
-        mContactDao.insertContact(contact)
+        _contactDao.insertContact(contact)
     }
 
     suspend fun updateContact(contact: Contact){
-        mContactDao.updateContact(contact)
+        _contactDao.updateContact(contact)
     }
 
     suspend fun deleteContact(contact: Contact){
-        mContactDao.deleteContact(contact)
+        _contactDao.deleteContact(contact)
     }
 
     suspend fun getContactById(id: Int) : Contact{
-        return mContactDao.getContactById(id)
+        return _contactDao.getContactById(id)
     }
 }

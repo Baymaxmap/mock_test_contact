@@ -19,6 +19,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"
+            android:background="@drawable/circular_image"
             app:loadImage="@{contact.avatar}"
             android:contentDescription="@{contact.name}"
             app:layout_constraintStart_toStartOf="parent"

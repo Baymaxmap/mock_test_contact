@@ -18,6 +18,26 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- ImageView for Avatar -->
+        <ImageView
+            android:id="@+id/avatarImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            app:loadImage="@{contact.avatar}" />
+
+        <!-- Button to Select Image -->
+        <Button
+            android:id="@+id/selectImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:text="Select Image"
+            android:onClick="@{() -> viewModel.onSelectImageClick()}" />
+
         <!-- EditText for Name -->
         <EditText
             android:id="@+id/nameEditText"
@@ -42,31 +62,14 @@
             android:hint="Enter Email"
             android:text="@={contact.email}" />
 
-        <!-- ImageView for Avatar -->
-        <ImageView
-            android:id="@+id/avatarImageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="16dp"
-            android:scaleType="centerCrop"
-            app:loadImage="@{contact.avatar}" />
-
-        <!-- Button to Select Image -->
-        <Button
-            android:id="@+id/selectImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Select Image"/>
-<!--            android:onClick="@{() -> viewModel.onSelectImageClick()}" />-->
-
         <!-- Save Button -->
         <Button
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Save"/>
-<!--            android:onClick="@{() -> viewModel.onSaveContactClick(contact)}" />-->
+            android:layout_gravity="center"
+            android:text="Save"
+            android:onClick="@{() -> viewModel.onSaveContactClick(contact)}" />
     </LinearLayout>
 </layout>

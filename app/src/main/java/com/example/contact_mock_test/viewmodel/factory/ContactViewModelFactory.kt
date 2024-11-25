@@ -8,14 +8,14 @@ import com.example.contact_mock_test.viewmodel.ContactDetailViewModel
 import com.example.contact_mock_test.viewmodel.ContactEditViewModel
 import com.example.contact_mock_test.viewmodel.ContactListViewModel
 
-class ContactViewModelFactory(private val mRepository: ContactRepository): ViewModelProvider.Factory {
+class ContactViewModelFactory(private val _repository: ContactRepository): ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when{
-            modelClass.isAssignableFrom(ContactListViewModel::class.java) -> (ContactListViewModel(mRepository) as T)
-            modelClass.isAssignableFrom(ContactAddViewModel::class.java) -> (ContactAddViewModel(mRepository) as T)
-            modelClass.isAssignableFrom(ContactDetailViewModel::class.java) -> (ContactDetailViewModel(mRepository) as T)
-            modelClass.isAssignableFrom(ContactEditViewModel::class.java) -> (ContactEditViewModel(mRepository) as T)
+            modelClass.isAssignableFrom(ContactListViewModel::class.java) -> (ContactListViewModel(_repository) as T)
+            modelClass.isAssignableFrom(ContactAddViewModel::class.java) -> (ContactAddViewModel(_repository) as T)
+            modelClass.isAssignableFrom(ContactDetailViewModel::class.java) -> (ContactDetailViewModel(_repository) as T)
+            modelClass.isAssignableFrom(ContactEditViewModel::class.java) -> (ContactEditViewModel(_repository) as T)
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }
     }

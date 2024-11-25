@@ -13,6 +13,7 @@ class BindingAdapters {
             if (!imagePath.isNullOrEmpty()) {
                 Glide.with(view.context)
                     .load(imagePath) // Đường dẫn hoặc URL ảnh
+                    .circleCrop()
                     .placeholder(R.drawable.icon_avatar_background) // Ảnh mặc định khi đang load
                     .error(R.drawable.icon_avatar_background) // Ảnh lỗi
                     .into(view) // Đổ ảnh vào ImageView

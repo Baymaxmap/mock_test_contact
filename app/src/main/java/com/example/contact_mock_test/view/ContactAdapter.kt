@@ -14,19 +14,19 @@ import com.example.contact_mock_test.model.Contact
 import java.io.File
 
 class ContactAdapter(
-    private var contacts: List<Contact>,
-    private val onClick: (Contact) -> Unit
+    private var _contacts: List<Contact>,
+    private val _onClick: (Contact) -> Unit
 ) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
 
-    inner class ContactViewHolder(private val binding: ItemContactBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ContactViewHolder(private val _binding: ItemContactBinding) : RecyclerView.ViewHolder(_binding.root) {
         fun bind(contact: Contact) {
             // Gán dữ liệu cho binding
-            binding.contact = contact // Gán contact vào variable trong item_contact.xml
-            binding.executePendingBindings() // Thực thi binding ngay lập tức
+            _binding.contact = contact // Gán contact vào variable trong item_contact.xml
+            _binding.executePendingBindings() // Thực thi binding ngay lập tức
 
             // Xử lý click vào item
-            binding.root.setOnClickListener {
-                onClick(contact)
+            _binding.root.setOnClickListener {
+                _onClick(contact)
             }
         }
     }
@@ -39,14 +39,14 @@ class ContactAdapter(
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        holder.bind(contacts[position])
+        holder.bind(_contacts[position])
     }
 
-    override fun getItemCount(): Int = contacts.size
+    override fun getItemCount(): Int = _contacts.size
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(newContacts: List<Contact>) {
-        contacts = newContacts
+        _contacts = newContacts
         notifyDataSetChanged()
     }
 }

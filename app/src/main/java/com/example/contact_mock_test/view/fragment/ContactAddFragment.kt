@@ -24,7 +24,7 @@ import com.example.contact_mock_test.viewmodel.factory.ContactViewModelFactory
 
 class ContactAddFragment : Fragment(R.layout.fragment_contact_add) {
     private lateinit var _binding: FragmentContactAddBinding
-    private lateinit var contactViewModel: ContactAddViewModel
+    private lateinit var _contactViewModel: ContactAddViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,38 +41,28 @@ class ContactAddFragment : Fragment(R.layout.fragment_contact_add) {
         // Initialize ViewModel
         val repository = (requireActivity().application as ContactApp).contactRepository
         val contactViewModelFactory = ContactViewModelFactory(repository)
-        contactViewModel = ViewModelProvider(this, contactViewModelFactory).get(ContactAddViewModel::class.java)
+        _contactViewModel = ViewModelProvider(this, contactViewModelFactory).get(ContactAddViewModel::class.java)
 
         val contact = Contact()
         // Bind the contact object to the UI (one-way binding)
         _binding.contact = contact  //display UI
+        _binding.viewModel = _contactViewModel
         _binding.lifecycleOwner = viewLifecycleOwner
 
-        // Handle "Select Image" button click
-        _binding.selectImageButton.setOnClickListener {
+
+        //handle button save clicked
+        _contactViewModel.navigateBack.observe(viewLifecycleOwner){shouldNavigate->
+            if(shouldNavigate == true){
+                findNavController().navigateUp()
+                _contactViewModel.doneSaveContact()
+            }
+        }
+
+        //handle button selectImage clicked
+        _contactViewModel.selectImageEvent.observe(viewLifecycleOwner){selectedImage->
             selectImageFromGallery()
+            _contactViewModel.doneSelectingImage()
         }
-
-        //Handle "Save" button click
-        _binding.saveButton.setOnClickListener {
-            // Insert the new contact into the database
-            contactViewModel.insertContact(contact)
-            findNavController().navigateUp()
-        }
-
-
-
-//        contactViewModel.navigateBack.observe(viewLifecycleOwner){shouldNavigate->
-//            if(shouldNavigate == true){
-//                findNavController().navigateUp()
-//                contactViewModel.doneSaveContact()
-//            }
-//        }
-//
-//        contactViewModel.selectImageEvent.observe(viewLifecycleOwner){selectedImage->
-//                selectImageFromGallery()
-//                contactViewModel.doneSelectingImage()
-//        }
 
     }
 

@@ -33,16 +33,6 @@ class ContactListViewModel(private val mRepository: ContactRepository): ViewMode
         }
     }
 
-
-    //get a contact by ID
-    fun getContactById(id: Int): Contact{
-        var dataContact: Contact = Contact()
-        viewModelScope.launch {
-            dataContact = mRepository.getContactById(id)
-        }
-        return dataContact
-    }
-
     //search a specific contact
     fun searchContacts(query: String) {
         val currentContacts = _contacts.value ?: emptyList()

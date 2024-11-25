@@ -18,14 +18,6 @@ class ContactAddViewModel(private val _repository: ContactRepository): ViewModel
     private val _selectImageEvent = MutableLiveData<Boolean>()
     val selectImageEvent: LiveData<Boolean> get() = _selectImageEvent
 
-    fun updateContact(contact: Contact){
-        viewModelScope.launch {
-            withContext(Dispatchers.IO){
-                _repository.updateContact(contact)
-            }
-        }
-    }
-
     fun insertContact(contact: Contact){
         viewModelScope.launch {
             withContext(Dispatchers.IO){

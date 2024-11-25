@@ -14,8 +14,8 @@ import com.example.contact_mock_test.viewmodel.ContactListViewModel
 import com.example.contact_mock_test.viewmodel.factory.ContactViewModelFactory
 
 class ContactListFragment : Fragment(R.layout.fragment_contact_list) {
-    private lateinit var contactViewModel: ContactListViewModel
-    private lateinit var adapter: ContactAdapter
+    private lateinit var _contactViewModel: ContactListViewModel
+    private lateinit var _adapter: ContactAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -23,43 +23,43 @@ class ContactListFragment : Fragment(R.layout.fragment_contact_list) {
         //******************************** DISPLAY CONTACT LIST **********************************
         //create recycler view to display UI
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_contacts)
-        adapter = ContactAdapter(emptyList()) { contact ->
+        _adapter = ContactAdapter(emptyList()) { contact ->
             // navigate to ContactDetailFragment when clicking item
             val action = ContactListFragmentDirections.actionContactListFragmentToContactDetailFragment(contact)
             findNavController().navigate(action)
         }
-        recyclerView.adapter = adapter
+        recyclerView.adapter = _adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         //******************************** CONTACT LIST CHANGE UI WHEN ANY CONTACT UPDATED **********************************
         //create viewmodel to register observers when database changed
         val repository = (requireActivity().application as ContactApp).contactRepository
         val contactViewModelFactory = ContactViewModelFactory(repository)
-        contactViewModel = ViewModelProvider(requireActivity(), contactViewModelFactory).get(ContactListViewModel::class.java)
+        _contactViewModel = ViewModelProvider(this, contactViewModelFactory).get(ContactListViewModel::class.java)
 
         //register observers to display all contacts on recycler view when contact get updated
-        contactViewModel.contacts.observe(viewLifecycleOwner) { contacts ->
-            adapter.updateData(contacts)
+        _contactViewModel.contacts.observe(viewLifecycleOwner) { contacts ->
+            _adapter.updateData(contacts)
         }
 
         //******************************** CONTACT SEARCH TO DISPLAY UI **********************************
         // Observe filtered contacts to display specific contacts searched
-        contactViewModel.filteredContacts.observe(viewLifecycleOwner) { contacts ->
-            adapter.updateData(contacts)
+        _contactViewModel.filteredContacts.observe(viewLifecycleOwner) { contacts ->
+            _adapter.updateData(contacts)
         }
 
         //initialize UI when fragment is created, fetchContacts will call onChange of observer
-        contactViewModel.fetchContacts()
+        _contactViewModel.fetchContacts()
     }
+
 
     override fun onResume() {
         super.onResume()
-        contactViewModel.fetchContacts()
+        _contactViewModel.fetchContacts()
     }
 
-
     fun onSearchQuery(query: String) {
-        contactViewModel.searchContacts(query)
+        _contactViewModel.searchContacts(query)
     }
 
 }

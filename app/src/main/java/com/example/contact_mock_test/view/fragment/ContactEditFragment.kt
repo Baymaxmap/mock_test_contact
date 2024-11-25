@@ -19,7 +19,7 @@ import com.example.contact_mock_test.viewmodel.ContactEditViewModel
 import com.example.contact_mock_test.viewmodel.factory.ContactViewModelFactory
 
 class ContactEditFragment : Fragment(R.layout.fragment_contact_edit) {
-    private lateinit var contactViewModel: ContactEditViewModel
+    private lateinit var _contactViewModel: ContactEditViewModel
     private lateinit var _binding: FragmentContactEditBinding
 
     override fun onCreateView(
@@ -37,24 +37,24 @@ class ContactEditFragment : Fragment(R.layout.fragment_contact_edit) {
         // initialize ViewModel
         val repository = (requireActivity().application as ContactApp).contactRepository
         val contactViewModelFactory = ContactViewModelFactory(repository)
-        contactViewModel = ViewModelProvider(this, contactViewModelFactory).get(ContactEditViewModel::class.java)
+        _contactViewModel = ViewModelProvider(this, contactViewModelFactory).get(ContactEditViewModel::class.java)
 
         val contact = ContactEditFragmentArgs.fromBundle(requireArguments()).contact    // get contact from arguments
         //bind viewmodel and view
-        _binding.viewModel = contactViewModel
+        _binding.viewModel = _contactViewModel
         _binding.lifecycleOwner = viewLifecycleOwner
         _binding.contact = contact  //display UI
 
         //*************************** SELECT IMAGE FROM DEVICE ******************************
-        contactViewModel.selectImageEvent.observe(viewLifecycleOwner) { shouldSelectImage ->
+        _contactViewModel.selectImageEvent.observe(viewLifecycleOwner) { shouldSelectImage ->
             if (shouldSelectImage == true) {
                 selectImageFromGallery()
-                contactViewModel.doneSelectingImage() // Reset trạng thái
+                _contactViewModel.doneSelectingImage() // Reset trạng thái
             }
         }
 
         //*************************** NAVIGATE BACK TO CONTACT DETAIL FRAGMENT ******************************
-        contactViewModel.navigateBack.observe(viewLifecycleOwner){shouldNavigate->
+        _contactViewModel.navigateBack.observe(viewLifecycleOwner){shouldNavigate->
             if(shouldNavigate == true){
                 findNavController().navigateUp()
             }

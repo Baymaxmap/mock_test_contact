@@ -6,14 +6,13 @@ import com.example.contact_mock_test.model.Contact
 import com.example.contact_mock_test.model.repository.ContactRepository
 
 class ContactApp: Application() {
-    lateinit var database: AppDatabase
+    private lateinit var _database: AppDatabase
     lateinit var contactRepository: ContactRepository
 
     override fun onCreate() {
         super.onCreate()
-        database = AppDatabase.getDatabase(this)
-        contactRepository = ContactRepository(database.contactDao())
-
+        _database = AppDatabase.getDatabase(this)
+        contactRepository = ContactRepository(_database.contactDao())
     }
 
     suspend fun initApp(){
