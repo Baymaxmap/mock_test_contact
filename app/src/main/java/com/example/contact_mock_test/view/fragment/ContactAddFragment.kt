@@ -60,8 +60,10 @@ class ContactAddFragment : Fragment(R.layout.fragment_contact_add) {
 
         //handle button selectImage clicked
         _contactViewModel.selectImageEvent.observe(viewLifecycleOwner){selectedImage->
-            selectImageFromGallery()
-            _contactViewModel.doneSelectingImage()
+            if(selectedImage==true){
+                selectImageFromGallery()
+                _contactViewModel.doneSelectingImage()
+            }
         }
 
     }
